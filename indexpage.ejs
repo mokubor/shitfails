@@ -1,0 +1,78 @@
+<html>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<style>
+		body{
+			margin: auto;
+			text-align: center;
+			margin-top: 220px;
+		}
+			button {
+				background: rgb(53, 128, 255);
+				color: white;
+				border: none;
+				font-size: 30px;
+				padding: 20px;
+			}
+			h1{
+			font-family: sans-serif;
+			color: grey;
+			}
+			#second_set {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="first_set">
+			<h1>Hello.</h1>
+			<button onclick="window.open('http://localhost:8000/home')">Click here to authenticate</button>
+		</div>
+		<div id="second_set">
+			<h1>GT Bank Chat Bot Simulator</h1>
+			<button onclick="window.open('http://localhost:8000/action/1')">Buy Airtime</button>
+			<button onclick="window.open('http://localhost:8000/action/2')">Check Balance</button>
+			<button onclick="window.open('http://localhost:8000/action/3')">Make A Transfer</button>
+			<form name="receiver">
+			<input type="text" name="message" size="100" value="" readonly disabled>
+			</form>
+			<p id="solution"></p>
+		</div>
+		<script>
+			function getCookie() {
+			    var cname = "cookie-msg-test=";
+			    var ca = document.cookie.split(';');
+			    for (var i=0; i < ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			        if (c.indexOf(cname) == 0) {
+
+			            return c.substring(cname.length, c.length);
+			        }
+			    }
+			    return false;
+			}
+			function updateMessage() {
+				var requestReturn = getCookie()
+				if (requestReturn) {
+					console.log(requestReturn)
+					if(requestReturn == "done"){
+						$('#first_set').hide();
+						$('#second_set').show();
+					}
+					else if(requestReturn == "1" ){
+						document.getElementById('solution').innerHTML = "Enter Amount of Airtime to Purchase";
+					}
+					else if(requestReturn == "2" ){
+						document.getElementById('solution').innerHTML = "Your Balance is: $25,000.00";
+					}
+					else if(requestReturn == "3" ){
+						document.getElementById('solution').innerHTML = "Please Enter Recipient Information";
+					}
+				}
+			    setTimeout(updateMessage, 100);
+			}
+			updateMessage();
+		</script>
+	</body>
+</html>

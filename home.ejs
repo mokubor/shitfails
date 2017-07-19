@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<style type="text/css">
+		@font-face {
+		    font-family: header;
+		    src: url(Adam.otf);
+		}
+		body {
+			text-align: center;
+				margin: auto;
+		}
+			body > div {
+				text-align: center;
+				margin: auto;
+				font-family: sans-serif;
+				font-weight: 100;
+				color: grey;
+				padding: 40px;
+				width: 60%;
+				border: 1px solid silver;
+				border-radius: 5px ;
+				margin-top: 50px;
+				-webkit-box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
+box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
+			}
+			input {
+				width: 60%;
+				text-align: center;
+				height: 60px;
+				font-size: 20px;
+			}
+			input[type=number]{
+			  -webkit-transition: all 0.30s ease-in-out;
+			  -moz-transition: all 0.30s ease-in-out;
+			  -ms-transition: all 0.30s ease-in-out;
+			  -o-transition: all 0.30s ease-in-out;
+			  outline: none;
+			  padding: 3px 0px 3px 3px;
+			  margin: 5px 1px 3px 0px;
+			  border: 1px solid #DDDDDD;
+			}
+			 
+			input[type=number]:focus{
+			  box-shadow: 0 0 5px grey;
+			  padding: 3px 0px 3px 3px;
+			  margin: 5px 1px 3px 0px;
+			  border: 1px solid grey;
+			}
+			button {
+				color: white;
+				background-color: orangered;
+				padding: 10px 20px 10px 20px;
+				border: none;
+				font-size: 15px;
+			}
+			img {
+				width: 150px;
+			}
+			h1 {
+				font-family: header;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+
+			<!-- <button id="test">TEST AJAX</button> -->
+			<img src="http://dailyguideafrica.com/wp-content/uploads/2017/04/gtbank-logo.jpg">
+			<h1>Welcome to Account Linking</h1>
+			<!-- <form method="post" action="/make_user">
+				<input name="name" type="text">
+				<input name="phone" type="text">
+				<input name="seventhreesevenstatus" type="number">
+				<input name="userid" type="number">
+				<button type="submit">Send</button>
+			</form> -->
+			<p>Chat bot: </p><br><br>
+			<div id="a">
+				<input id="inputa" type="number" placeholder="Please Enter Your Phone Number"><br><br><br><br>
+				<button id="submita" type="submit">Submit</button>
+			</div>
+			<div id="b" style="display: none">
+				<input required id="inputb" type="number" placeholder="Please Enter The Verification Pin"><br><br><br><br>
+				<button id="submitb" type="submit">Submit</button>
+			</div>
+			<div id="c" style="display: none">
+				<input id="inputc" type="text" maxlength="4" pattern="\d{4}" placeholder="Please Enter Your Existing 737 Pin"><br><br><br><br>
+				<button id="submitc" type="submit">Submit</button>
+			</div>
+
+
+			<div id="d" style="display: none">
+				<input id="inputd" type="number" placeholder="Please Enter The Last 6 Digits Of Your ATM Card Number"><br><br><br><br>
+				<button id="submitd" type="submit">Submit</button>
+			</div>
+
+			<div id="e" style="display: none">
+				<input id="inpute" type="text" maxlength="4" pattern="\d{4}" placeholder="Please Enter a 4 Digit 737 Pin"><br><br><br><br>
+				<button id="submite" type="submit">Submit</button>
+			</div>
+		</div>
+		<script type="text/javascript">
+		
+		var userdata
+		var tries = 0;
+			$('#submita').click(function() {
+				var phonenumber = $('#inputa').val();
+				$.ajax({
+							type: 'POST',
+							data: JSON.stringify({number: phonenumber}),
+							dataType: 'json',
+					        contentType: 'application/json',
+	                        url: '/get_user',						
+	                        success: function(data) {
+	                        	userdata =data;
+	                            console.log(JSON.stringify(data));
+	                        }
+	                    });
+				$('p').text('Chat bot: A Verification Pin Has Been Sent To Your Number');
+				$('#a').hide();
+				$('#b').show();
+			})
+			$('#submitb').click(function() {
+				var returncode = userdata.seventhreesevenstatus;
+				console.log(returncode, userdata);
+
+				if (returncode) {
+					$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
+					$('#b').hide();
+					$('#c').show();
+				} 
+				else {
+					$('p').text('Chat bot: You Do Not Have 737 Set Up');
+					$('#b').hide();
+					$('#d').show();
+				}
+				
+			})
+			$('#submitc').click(function() {
+					if ($('#inputc').val() == "1234"){
+						$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
+						updateMessage();
+						$('#c').hide();
+
+					}else {
+						$('p').text('Chat bot: Incorrect Pin. Please Try Again')
+						tries++;
+					}
+					if (tries == 3){
+						
+						$('#c').hide();
+						$('#d').show();
+						$('p').text('Chat bot: You Do Not Have 737 Set Up');
+					}
+					
+			})
+
+			$('#submitd').click(function() {
+				$('p').text('Chat bot: You Need to Enter A 4 Digit 737 Pin');
+				$('#d').hide();
+				$('#e').show();
+			})
+
+			$('#submite').click(function() {
+				$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
+				updateMessage();
+				$('#e').hide();
+			})
+
+			function setCookie(value) {
+			    document.cookie = "cookie-msg-test=" + value + "; path=/";
+			    return true;
+			}
+			function updateMessage() {
+			    setCookie("done");
+			    setTimeout(updateMessage, 100);
+			}
+			
+		</script>
+	</body>
+</html>

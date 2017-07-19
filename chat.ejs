@@ -1,0 +1,129 @@
+<html>
+<head>
+<title></title>
+    <style type="text/css">
+        body {
+            padding: 150px;
+            margin: auto;
+            text-align: center;
+        }
+        #holder {
+            width: 300px;
+            height: 400px;
+            border: 1px solid silver;
+            margin: auto;
+            position: relative;
+        }
+        h3 {
+            background-color: cornflowerblue;
+            -webkit-margin-before: 0em;
+            -webkit-margin-after: 0em;
+            font-family: sans-serif;
+            color: white;
+            height: 30px;
+            text-align: left;
+            padding-left: 10px;
+            padding-top: 10px;
+
+        }
+        input {
+            position: absolute;
+            bottom: 0;
+            width: 85%;
+            left: 0;
+            height: 40px;
+        }
+        #content {
+            overflow: auto;
+            width: 100%;
+            height: 318px;
+        }
+        #go {
+            background-color: cornflowerblue;
+            width: 14.9%;
+            right: 0;
+            border: none;
+            position: absolute;
+            bottom: 0;
+            color: white;
+            height: 40px;
+        }
+        .chatbot {
+            text-align: left;
+            margin: 10px;
+        }
+        .chatbotspan {
+            background: darkorange;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            max-width: 55%;
+            text-align: left;
+            display: inline-block;
+        }
+        .user {
+            text-align: right;
+            margin: 10px;
+
+        }
+        .userspan {
+            background: cornflowerblue;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            max-width: 55%;
+            text-align: left;
+            display: inline-block;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+
+        $(document).ready(function (){
+            var objDiv = document.getElementById("content");
+            // this triggers the connection event in our server!
+            var socket = io.connect();
+
+            $('input').keypress(function(e) {
+                if(e.which == 13) {
+                    $('#content').append("<p class='user'><span class='userspan'>"+$('input').val()+"</span></p>");
+                
+                    socket.emit("user_sent", {reason: $('input').val()});
+                    $('input').val("");
+                    
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                    }
+            });
+             $('button').click(function (){
+                $('#content').append("<p class='user'><span class='userspan'>"+$('input').val()+"</span></p>");
+                
+                socket.emit("user_sent", {reason: $('input').val()});
+                $('input').val("");
+                
+                objDiv.scrollTop = objDiv.scrollHeight;
+                });
+                socket.on('server_response', function (data){
+                    $('#content').append("<p class='chatbot'><span class='chatbotspan'>"+data.response+"</span></p>");
+                    console.log('The server says: ' + data.response);
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                });
+
+        })
+    </script>
+</head>
+<body>
+    <!-- <button>I AM A BUTTON!</button> -->
+    <div id="holder">
+        <h3>GT Chat Bot</h3>
+        <div id="content">
+            <p class="chatbot"> <span class="chatbotspan">Hello! I'm ChatBot. What's your name?.</span></p>
+        </div>
+        <input placeholder="Send a message" type="text">
+        <button id="go">GO!</button>
+    </div>
+    <!-- web page goes here -->
+</body>
+</html><br>
