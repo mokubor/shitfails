@@ -60,14 +60,9 @@ app.post('/verify_code', function(req, res){
 	/**
 	Check Verification code sent by system against users input found in req.body.verify
 	Check backend database if user is profiled for 737 service
-	
-	if verification code sent != user input code
-	return -1
-	else check if user is profiled for 737 service
-	if user is profiled for 737 
-	return 1 
-	else 
-	return 0
+	-1 return status for invalid verification code
+	0 return status for non-737 user
+	1 return status if already profiled for 737
 	*/
 	console.log('IN verify code');
 	console.log("SENT FROM VIEW: " + req.body.verify);
@@ -149,6 +144,12 @@ return 0
 */
 function check_seventhreeseven_status(number, callback){
 	var test_number = '08056059032';
+	
+	if(test_number == number){
+		callback('1');
+	}else{
+		callback('0');
+	}
 }
 
 
