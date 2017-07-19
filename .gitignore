@@ -1,0 +1,34 @@
+### Node ###
+
+# Dependency directories
+737Webview/node_modules/
+737Bot/node_modules/
+
+# Optional npm cache directory
+737Webview/.npm
+737Bot/.npm
+
+# Runtime data
+737Webview/pids
+737Webview/*.pid
+737Webview/*.seed
+737Webview/*.pid.lock
+737Bot/pids
+737Bot/*.pid
+737Bot/*.seed
+737Bot/*.pid.lock
+
+
+
+# Logs
+737Webview/logs
+737Webview/*.log
+737Webview/npm-debug.log*
+737Webview/yarn-debug.log*
+737Webview/yarn-error.log*
+logs
+737Bot/*.log
+737Bot/npm-debug.log*
+737Bot/yarn-debug.log*
+737Bot/yarn-error.log*
+
