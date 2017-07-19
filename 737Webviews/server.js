@@ -2,7 +2,7 @@
 var path = require("path");
 // require express and create the express app
 var express = require("express");
-var mongoose = require('mongoose');
+/*var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/gtchatbot');
 var UserSchema = new mongoose.Schema({
  name: String,
@@ -10,7 +10,7 @@ var UserSchema = new mongoose.Schema({
  seventhreesevenstatus: Number,
  userid: Number
 })
-var User = mongoose.model('User', UserSchema);
+var User = mongoose.model('User', UserSchema);*/
 
 var app = express();
 // require bodyParser since we need to handle post data for adding a user
@@ -45,20 +45,20 @@ app.post('/get_user', function (req, res){
     // first parameter is the query document. Second parameter is the callback
     console.log('IN get user');
     console.log("SENT NUMBER: ", req.body);
-    User.findOne({phone: req.body.number}, function (err, user){
+   // User.findOne({phone: req.body.number}, function (err, user){
         // loads a view called 'user.ejs' and passed the user object to the view!
-        console.log(user)
+        console.log(req.body.number);
         res.writeHead(200, {'content-type': 'text/json' });
-      	res.write( JSON.stringify(user) );
+      	res.write( JSON.stringify({phone: req.body.number}) );
       	res.end('\n');
 
         // res.render('user', {user: user});
-    })
+   // })
     
 })
 app.post('/make_user', function(req, res) {
 	console.log("POST DATA", req.body);
-	var user = new User({name: req.body.name, phone: req.body.phone, seventhreesevenstatus: req.body.seventhreesevenstatus, userid: req.body.userid});
+	/*var user = new User({name: req.body.name, phone: req.body.phone, seventhreesevenstatus: req.body.seventhreesevenstatus, userid: req.body.userid});
 	  // try to save that new user to the database (this is the method that actually inserts into the db) and run a callback function with an error (if any) from the operation.
 	  user.save(function(err) {
 	    // if there is an error console.log that something went wrong!
@@ -68,12 +68,14 @@ app.post('/make_user', function(req, res) {
 	      console.log('successfully added a user!');
 	      res.redirect('/');
 	    }
-	  })
+	  })*/
 })
 // listen on 8000
 var server = app.listen(8000, function() {
  console.log("listening on port 8000");
 })
+
+/*
 const {Wit, log} = require('node-wit');
 const client = new Wit({accessToken: 'UC2FRHQWCW2LRF34ECB2XEE5S7L7ZJNJ'});
 Object.size = function(obj) {
@@ -130,3 +132,5 @@ io.sockets.on('connection', function (socket) {
     
 })
 })
+
+*/
