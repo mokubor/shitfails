@@ -46,14 +46,51 @@ app.get('/action/:id', function(req, res) {
 
 app.post('/get_user', function (req, res){
     // first parameter is the query document. Second parameter is the callback
-    console.log('IN get user');
-    console.log("SENT NUMBER: ", req.body);
+  console.log('IN get user');
+  console.log("SENT FROM VIEW: ", req.body);
 	
-	
-    res.writeHead(200, {'content-type': 'text/json' });
-    res.write( JSON.stringify({phone: req.body.number}) );
-    res.end('\n');
+	send_verification(req.body.number);
+  res.writeHead(200, {'content-type': 'text/json' });
+  res.write( JSON.stringify({phone: req.body.number}) );
+	res.end('\n');
     
+})
+
+app.post('/verify_code', function(req, res){
+	/**
+	Check Verification code sent by system against users input found in req.body.verify
+	Check backend database if user is profiled for 737 service
+	
+	if verification code sent != user input code
+	return -1
+	else check if user is profiled for 737 service
+	if user is profiled for 737 
+	return 1 
+	else 
+	return 0
+	*/
+	console.log('IN verify code');
+	console.log("SENT FROM VIEW: " + req.body.verify);
+	check_verification(req.body.verify, function(result){
+		if(result == '0'){//verification code does not match
+			res.writeHead(200, {'content_type': 'text/json'});
+			res.write(JSON.stringify({status: '-1'}));
+			res.end('/n');
+		}
+		else{//verification code matches
+			check_seventhreeseven_status(req.body.number, function(result){
+				if(result == '0'){//fb users number is not profiled for 737
+					res.writeHead(200, {'content_type': 'text/json'});
+					res.write(JSON.stringify({status: '0'}));
+					res.end('/n');
+				}else{//fb users number is profiled for 737
+					res.writeHead(200, {'content_type': 'text/json'});
+					res.write(JSON.stringify({status: '1'}));
+					res.end('/n');
+				}
+			});
+		}
+	});
 })
 
 app.post('/make_user', function(req, res) {
@@ -75,12 +112,44 @@ var server = app.listen(8000, function() {
  console.log("listening on port 8000");
 })
 
-function send_otp (number, callback){
-	/*
-	Send OTP or verification code. 
-	*/
+/*
+#########################################################################################################
+Functions to be completed by APPDEV
+*/
+
+/*
+Send OTP or verification code. 
+*/
+function send_verification(number){
+
 }
 
+/*
+if verification code sent by service  equals user input
+return 1
+else
+return 0
+*/
+function check_verification(code, callback){
+	var test_code = '123456';
+	
+	if( test_code == code ){
+		callback('1');
+	}else{
+		callback('0');
+	}
+}
+
+
+/*
+if users number is profiled for 737 service return 
+return 1
+else
+return 0
+*/
+function check_seventhreeseven_status(number, callback){
+	var test_number = '08056059032';
+}
 
 
 

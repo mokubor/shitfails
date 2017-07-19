@@ -69,20 +69,13 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			<!-- <button id="test">TEST AJAX</button> -->
 			<img src="http://dailyguideafrica.com/wp-content/uploads/2017/04/gtbank-logo.jpg">
 			<h1>Welcome to Account Linking</h1>
-			<!-- <form method="post" action="/make_user">
-				<input name="name" type="text">
-				<input name="phone" type="text">
-				<input name="seventhreesevenstatus" type="number">
-				<input name="userid" type="number">
-				<button type="submit">Send</button>
-			</form> -->
 			<p>Chat bot: </p><br><br>
 			<div id="a">
 				<input id="inputa" type="number" placeholder="Please Enter Your Phone Number"><br><br><br><br>
 				<button id="submita" type="submit">Submit</button>
 			</div>
 			<div id="b" style="display: none">
-				<input required id="inputb" type="number" placeholder="Please Enter The Verification Pin"><br><br><br><br>
+				<input required id="inputb" type="number" placeholder="Please Enter The Verification Code sent"><br><br><br><br>
 				<button id="submitb" type="submit">Submit</button>
 			</div>
 			<div id="c" style="display: none">
@@ -103,27 +96,53 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 		</div>
 		<script type="text/javascript">
 		
-		var userdata
+		var fb_number;
 		var tries = 0;
 			$('#submita').click(function() {
 				var phonenumber = $('#inputa').val();
 				$.ajax({
-							type: 'POST',
-							data: JSON.stringify({number: phonenumber}),
-							dataType: 'json',
-					        contentType: 'application/json',
-	                        url: '/get_user',						
-	                        success: function(data) {
-	                        	userdata =data;
-	                            console.log(JSON.stringify(data));
-	                        }
-	                    });
+						type: 'POST',
+						data: JSON.stringify({number: phonenumber}),
+						dataType: 'json',
+		        contentType: 'application/json',
+	          url: '/get_user',
+	          success: function(data) {
+	          	fb_number=data.phone;
+	            console.log(JSON.stringify(data));
+	          }
+	      });
 				$('p').text('Chat bot: A Verification Pin Has Been Sent To Your Number');
 				$('#a').hide();
 				$('#b').show();
 			})
 			$('#submitb').click(function() {
-				var returncode = userdata.seventhreesevenstatus;
+				var returncode;
+				var code = $('#inputb').val();
+				$.ajax({
+						type: 'POST',
+						data: JSON.stringify({
+							verify: code,
+							number: fb_number
+						}),
+					dataType: 'json',
+					contentType: 'application/json',
+					url: '/verify_code',
+					success: function(data) {
+						returncode = data.body.status;
+						if(returncode == 1){
+							$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
+							$('#b').hide();
+							$('#c').show();
+						}else if(returncode == 0){
+							$('p').text('Chat bot: You Do Not Have 737 Set Up');
+							$('#b').hide();
+							$('#d').show();
+						}else{
+							$('p').text('Invalid Code. A New Verification Code has been sent')
+							$('#inputb').val("");
+						}
+					}
+				})
 				console.log(returncode, userdata);
 
 				if (returncode) {
