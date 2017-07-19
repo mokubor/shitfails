@@ -52,7 +52,6 @@ app.get('/webhook', function(req, res){
 
 //messages.addGetStartedButton();
 //messages.removeGetStartedButton();
-
 app.post('/webhook', function(req, res) {
 
 	var messaging_events = req.body.entry[0].messaging;

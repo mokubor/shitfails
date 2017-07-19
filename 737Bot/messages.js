@@ -14,12 +14,16 @@ module.exports = {
 		var text = text1.toLowerCase();
 		
 		if(text.includes("hello") || text.includes("hi")|| text.includes("hey")){
-			/* Link Account if not already linked */
-			console.log("args " + process.argv[1], process.argv[3]);
-			console.log("pwd " + process.env.PWD)
+			/*send some pleasant message. 
+			*/
 
 		}
 		else if(text.includes("greeting")){
+			/**
+				Check if users facebook id is linked.
+				if yes, display main menu. 
+				else send linking message
+			*/
 			this.sendText(sender, "Account would be linked at this step." )
 		}
 		else{
