@@ -1,0 +1,21 @@
+{
+  "name": "737Webviews",
+  "version": "1.0.0",
+  "description": "Webviews used for the GTB 737 service chatbot on messenger platforms",
+  "engines": {
+    "node": "6.11.1"
+  }
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "FinTech",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "nodemon": "^1.11.0",
+    "ejs": "^2.5.0",
+    "request": "^2.81.0"
+  }
+}
