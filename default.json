@@ -1,0 +1,6 @@
+{
+	"appSecret": "5ccbca929493fa2462085394fdf6c35a",
+	"pageAccessToken": "EAAXqL0NKTmUBAHDmoTZCpe4NrTCwgLln9ijUTa2oZAaNoDwrpUrBNjpuIk28ZCky63lVJQmb7lOTwwMa3N8WCJsWFOnadqqMLdAdQ8HDFtv7kJ9HcOK6ptLGRVuPGfI2gAz1jPqrjOPs1BMLNud4MBlbSnHt0UqAQwfBJ0CEwZDZD",
+	"validationToken": "gtfintech737bot",
+	"serverURL": "https://fintech-737-bot.herokuapp.com/webhook"
+}

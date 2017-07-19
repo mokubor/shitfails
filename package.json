@@ -1,0 +1,17 @@
+{
+  "name": "737bot",
+  "version": "1.0.0",
+  "description": "A chatbot for GTB 737 service on messenger platforms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "FinTech",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "fs": "0.0.1-security",
+    "request": "^2.81.0"
+  }
+}
