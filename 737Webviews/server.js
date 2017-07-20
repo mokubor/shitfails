@@ -60,12 +60,12 @@ app.post('/verify_code', function(req, res){
 	/**
 	Check Verification code sent by system against users input found in req.body.verify
 	Check backend database if user is profiled for 737 service
-	-1 return status for invalid verification code
+	-1 return value for invalid verification code
 	0 return status for non-737 user
 	1 return status if already profiled for 737
 	*/
 	console.log('IN verify code');
-	console.log("SENT FROM VIEW: " + req.body.verify);
+	console.log("SENT FROM VIEW: " + req.body);
 	check_verification(req.body.verify, function(result){
 		if(result == '0'){//verification code does not match
 			res.writeHead(200, {'content_type': 'text/json'});
@@ -88,7 +88,30 @@ app.post('/verify_code', function(req, res){
 	});
 })
 
-app.post('/make_user', function(req, res) {
+/*
+verify that user input pin is indeed pin attached to users 737 profile
+true if it matches,
+false if it does not
+*/
+app.post('/verify_pin', function(req, res){
+	console.log('IN verify pin');
+	console.log("SENT FROM VIEW: " + req.body);
+	
+	check_pin(req.body, function(result){
+		if(result){
+			res.writeHead(200, {'content_type': 'text/json'});
+			res.write(JSON.stringify({isPin: true}));
+			res.end('/n');
+		}else{
+			res.writeHead(200, {'content_type': 'text/json'});
+			res.write(JSON.stringify({isPin: false}));
+			res.end('/n');
+		}
+	});
+	
+})
+
+app.post('/link_user', function(req, res) {
 	console.log("POST DATA", req.body);
 	/*var user = new User({name: req.body.name, phone: req.body.phone, seventhreesevenstatus: req.body.seventhreesevenstatus, userid: req.body.userid});
 	  // try to save that new user to the database (this is the method that actually inserts into the db) and run a callback function with an error (if any) from the operation.
@@ -113,7 +136,7 @@ Functions to be completed by APPDEV
 */
 
 /*
-Send OTP or verification code. 
+Send OTP or verification code to number provided
 */
 function send_verification(number){
 
@@ -149,6 +172,24 @@ function check_seventhreeseven_status(number, callback){
 		callback('1');
 	}else{
 		callback('0');
+	}
+}
+
+
+/*
+Access users 737 profile to compare their pre-registered pin to their input. 
+return true if they match 
+return false if they are not the same
+*/
+function check_pin(user, callback){
+	var test_pin = '0720';
+	
+	//get 737 profile details for user.number and compare profile pin to user.pin
+	
+	if(user.pin == test_pin){
+		callback(true);
+	}else{
+		callback(false);
 	}
 }
 

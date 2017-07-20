@@ -96,9 +96,15 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 		</div>
 		<script type="text/javascript">
 		
-		var fb_number;
+		var fcbk_id;
+		var fcbk_number;
+		var password;
 		var tries = 0;
 			$('#submita').click(function() {
+				if(window.location.search;
+				queryString = queryString.substring(1);
+				var string = 
+
 				var phonenumber = $('#inputa').val();
 				$.ajax({
 						type: 'POST',
@@ -107,7 +113,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 		        contentType: 'application/json',
 	          url: '/get_user',
 	          success: function(data) {
-	          	fb_number=data.phone;
+	          	fcbk_number=data.phone;
 	            console.log(JSON.stringify(data));
 	          }
 	      });
@@ -122,7 +128,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					type: 'POST',
 					data: JSON.stringify({
 						verify: code,
-						number: fb_number
+						number: fcbk_number
 					}),
 					dataType: 'json',
 					contentType: 'application/json',
@@ -134,7 +140,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 							$('#b').hide();
 							$('#c').show();
 						}else if(returncode == 0){
-							$('p').text('Chat bot: You Do Not Have 737 Set Up');
+							$('p').text('Chat bot: Create a 737 service Pin');
 							$('#b').hide();
 							$('#d').show();
 						}else{
@@ -142,22 +148,58 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 							$('#inputb').val("");
 						}
 					}
-				})/*
-				console.log(returncode, userdata);
-
-				if (returncode) {
-					$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
-					$('#b').hide();
-					$('#c').show();
-				} 
-				else {
-					$('p').text('Chat bot: You Do Not Have 737 Set Up');
-					$('#b').hide();
-					$('#d').show();
-				}
-				*/
+				});
+				
 			})
+			
 			$('#submitc').click(function() {
+				tries++;
+				password = $('#inputc').val();
+				$.ajax({
+					type: 'POST',
+					data: JSON.stringify({
+						number:fcbk_number,
+						pin: password,
+						registered_status: true,
+						
+					}),
+					dataType: 'json',
+					contentType: 'application/json',
+					url: '/verify_pin',
+					success: function(data) {
+						if(data.isPin){
+							$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
+							$.ajax({
+								type: 'POST',
+								data: JOSN.stringify({
+									//send all data 
+									number: fcbk_number,
+									pin: password, 
+									
+								}), 
+								dataType: 'json',
+								contentType: 'application/json',
+								url: '/link_user',
+								success: function(data){
+									//append redirect values
+								}
+							});
+							updateMessage();
+							$('#c').hide();
+						}else{
+							if( tries == 3 ){
+								$('#c').hide();
+								$('#d').show();
+								$('p').text('Chat bot: Maximum Entry Tries Exceeded. Create a new 737 Pin');
+							}else{
+								$('p').text('Chat bot: Incorrect Pin. Please Try Again');
+								$('#inputc').val("");
+								
+							}
+						}
+					}
+				});
+					/*
 					if ($('#inputc').val() == "1234"){
 						$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
 						updateMessage();
@@ -173,7 +215,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 						$('#d').show();
 						$('p').text('Chat bot: You Do Not Have 737 Set Up');
 					}
-					
+					*/
 			})
 
 			$('#submitd').click(function() {
