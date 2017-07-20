@@ -119,11 +119,11 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 				var returncode;
 				var code = $('#inputb').val();
 				$.ajax({
-						type: 'POST',
-						data: JSON.stringify({
-							verify: code,
-							number: fb_number
-						}),
+					type: 'POST',
+					data: JSON.stringify({
+						verify: code,
+						number: fb_number
+					}),
 					dataType: 'json',
 					contentType: 'application/json',
 					url: '/verify_code',
@@ -142,7 +142,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 							$('#inputb').val("");
 						}
 					}
-				})
+				})/*
 				console.log(returncode, userdata);
 
 				if (returncode) {
@@ -155,7 +155,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					$('#b').hide();
 					$('#d').show();
 				}
-				
+				*/
 			})
 			$('#submitc').click(function() {
 					if ($('#inputc').val() == "1234"){
