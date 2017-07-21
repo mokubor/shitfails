@@ -121,28 +121,51 @@ app.post('/register_number', function(req, res){
 	get_user_account(req.body.number, function(error, result){
 		if(error){
 			//come back
+			var location = url_parameters.redirect_uri+
+				'?account_linking_token='+
+				url_parameters.account_linking_token;
+			
+			res.redirect(location);
 		} else{
 			confirm_card_details(req.body.card, result.account_id, function(error, validated){
 				if(error){
 					//come back
+					var location = url_parameters.redirect_uri+
+						'?account_linking_token='+
+						url_parameters.account_linking_token;
+			
+					res.redirect(location);
 				} else{
 					if(validated){
 						register_user(req.body.number, function(error, registered){
 							if(error){
 								//come back
+								var location = url_parameters.redirect_uri+
+									'?account_linking_token='+
+									url_parameters.account_linking_token;
+			
+								res.redirect(location);
 							}else{
 								if(registered){
 									res.writeHead(200, {'content_type': 'text/json'});
 									res.write(JSON.stringify({isPin: false}));
 									res.end('/n');
 								}else{
+									var location = url_parameters.redirect_uri+
+										'?account_linking_token='+
+										url_parameters.account_linking_token;
 									
+									res.redirect(location);
 								}
 							}
 						});
 						
 					}else{
-						
+						var location = url_parameters.redirect_uri+
+							'?account_linking_token='+
+							url_parameters.account_linking_token;
+			
+						res.redirect(location);
 					}
 				}
 			});
