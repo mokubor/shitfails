@@ -79,36 +79,40 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 				<button id="submitb" type="submit">Submit</button>
 			</div>
 			<div id="c" style="display: none">
-				<input id="inputc" type="text" maxlength="4" pattern="\d{4}" placeholder="Please Enter Your Existing 737 Pin"><br><br><br><br>
+				<input id="inputc" type="password" maxlength="4" pattern="\d{4}" placeholder="Please Enter Your Existing 737 Pin"><br><br><br><br>
 				<button id="submitc" type="submit">Submit</button>
 			</div>
 
 
 			<div id="d" style="display: none">
 				<input id="inputd" type="number" placeholder="Please Enter The Last 6 Digits Of Your ATM Card Number"><br><br><br><br>
+				<input id="inpute" type="password" maxlength="4" pattern="\d{4}" placeholder="Please Enter a 4 Digit 737 Pin"><br><br>
+				<input id="inputf" type="password" maxlength="4" pattern="\d{4}" placeholder="COnfirm Your 4 Digit 737 Pin"><br><br><br><br>
 				<button id="submitd" type="submit">Submit</button>
 			</div>
-
+			<!--
 			<div id="e" style="display: none">
 				<input id="inpute" type="text" maxlength="4" pattern="\d{4}" placeholder="Please Enter a 4 Digit 737 Pin"><br><br><br><br>
 				<button id="submite" type="submit">Submit</button>
 			</div>
+			-->
 		</div>
 		<script type="text/javascript">
 		
-		var fcbk_id;
 		var fcbk_number;
 		var password;
 		var tries = 0;
 			$('#submita').click(function() {
-				if(window.location.search;
-				queryString = queryString.substring(1);
-				var string = 
-
+				//retrieve facebook id from url
+				var params = JSON.stringify(get_params());
+				
 				var phonenumber = $('#inputa').val();
 				$.ajax({
 						type: 'POST',
-						data: JSON.stringify({number: phonenumber}),
+						data: JSON.stringify({
+							number: phonenumber,
+							url_params: params
+						}),
 						dataType: 'json',
 		        contentType: 'application/json',
 	          url: '/get_user',
@@ -159,9 +163,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					type: 'POST',
 					data: JSON.stringify({
 						number:fcbk_number,
-						pin: password,
-						registered_status: true,
-						
+						pin: password
 					}),
 					dataType: 'json',
 					contentType: 'application/json',
@@ -174,8 +176,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 								data: JOSN.stringify({
 									//send all data 
 									number: fcbk_number,
-									pin: password, 
-									
+									pin: password
 								}), 
 								dataType: 'json',
 								contentType: 'application/json',
@@ -199,36 +200,81 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 						}
 					}
 				});
-					/*
-					if ($('#inputc').val() == "1234"){
-						$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
-						updateMessage();
-						$('#c').hide();
-
-					}else {
-						$('p').text('Chat bot: Incorrect Pin. Please Try Again')
-						tries++;
-					}
-					if (tries == 3){
-						
-						$('#c').hide();
-						$('#d').show();
-						$('p').text('Chat bot: You Do Not Have 737 Set Up');
-					}
-					*/
 			})
 
 			$('#submitd').click(function() {
-				$('p').text('Chat bot: You Need to Enter A 4 Digit 737 Pin');
+				/*$('p').text('Chat bot: You Need to Enter A 4 Digit 737 Pin');
 				$('#d').hide();
 				$('#e').show();
+				*/
+				if($('#inpute').val() == $('#inputf').val()){
+					password = $('#inpute').val();
+					var card_details = $('#inputd').val();
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify({
+							number:fcbk_number,
+							card: card_details,
+							pin: password
+						}),
+						dataType: 'json',
+						contentType: 'application/json',
+						url: '/register_number',
+						success: function(data) {
+							if(data.registered){
+								$('p').text('Chat bot: You have succesfully been authenticated. Return to Messenger');
+								$.ajax({
+									type: 'POST',
+									data: JOSN.stringify({
+										//send all data 
+										number: fcbk_number,
+										pin: password
+									}), 
+									dataType: 'json',
+									contentType: 'application/json',
+									url: '/link_user',
+									success: function(data){
+										//append redirect values
+									}
+								});
+							}
+						}
+					});
+				} else{
+					$('p').text('The Confirmed Pin Does Not Match the Entered Pin');
+					$('#inpute').val("");
+					$('#inputf').val("");
+				}
+				
 			})
 
+			/*
 			$('#submite').click(function() {
 				$('p').text('Chat bot: You have succesfully been authenticated. Please return to Messenger');
 				updateMessage();
 				$('#e').hide();
 			})
+			*/
+			
+			function get_params(){
+				if(window.location.search){
+					var queryString = window.location.search;
+					queryString = queryString.substring(1);
+					var parseQueryString = function( queryString ) {
+    				var params = {}, queries, temp, i, l;
+    				// Split into key/value pairs
+    				queries = queryString.split("&");
+    				// Convert the array of strings into an object
+    				for ( i = 0, l = queries.length; i < l; i++ ) {
+        			temp = queries[i].split('=');
+       				params[temp[0]] = temp[1];
+    				}
+    				return params;
+					};
+					
+					return parseQueryString;
+				}
+			}
 
 			function setCookie(value) {
 			    document.cookie = "cookie-msg-test=" + value + "; path=/";

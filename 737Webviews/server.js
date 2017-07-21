@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, "./static")));
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 
-
+var url_parameters;
 // root route
 app.get('/', function(req, res) {
  // This is where we would get the users from the database and send them to the index view to be displayed.
@@ -49,6 +49,9 @@ app.post('/get_user', function (req, res){
   console.log('IN get user');
   console.log("SENT FROM VIEW: ", req.body);
 	
+	//retrieve url parameters like redirect uri etc
+	url_parameters = req.body.url_params;
+	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
   res.write( JSON.stringify({phone: req.body.number}) );
@@ -56,14 +59,15 @@ app.post('/get_user', function (req, res){
     
 })
 
+/**
+Check Verification code sent by system against users input found in req.body.verify
+Check backend database if user is profiled for 737 service
+-1 return value for invalid verification code
+0 return status for non-737 user
+ return status if already profiled for 737
+*/
 app.post('/verify_code', function(req, res){
-	/**
-	Check Verification code sent by system against users input found in req.body.verify
-	Check backend database if user is profiled for 737 service
-	-1 return value for invalid verification code
-	0 return status for non-737 user
-	1 return status if already profiled for 737
-	*/
+
 	console.log('IN verify code');
 	console.log("SENT FROM VIEW: " + req.body);
 	check_verification(req.body.verify, function(result){
@@ -111,19 +115,89 @@ app.post('/verify_pin', function(req, res){
 	
 })
 
+/*
+*/
+app.post('/register_number', function(req, res){
+	get_user_account(req.body.number, function(error, result){
+		if(error){
+			//come back
+		} else{
+			confirm_card_details(req.body.card, result.account_id, function(error, validated){
+				if(error){
+					//come back
+				} else{
+					if(validated){
+						register_user(req.body.number, function(error, registered){
+							if(error){
+								//come back
+							}else{
+								if(registered){
+									res.writeHead(200, {'content_type': 'text/json'});
+									res.write(JSON.stringify({isPin: false}));
+									res.end('/n');
+								}else{
+									
+								}
+							}
+						});
+						
+					}else{
+						
+					}
+				}
+			});
+		}
+	});
+})
+
+/*
+This post method retrieves the users GT user id and nuban
+Then saves all the details, phone number, facebook id, pin, nuban, account id, and status to DB
+On successful save, redirect with fb redirect uri and linking token. 
+*/
 app.post('/link_user', function(req, res) {
 	console.log("POST DATA", req.body);
-	/*var user = new User({name: req.body.name, phone: req.body.phone, seventhreesevenstatus: req.body.seventhreesevenstatus, userid: req.body.userid});
-	  // try to save that new user to the database (this is the method that actually inserts into the db) and run a callback function with an error (if any) from the operation.
-	  user.save(function(err) {
-	    // if there is an error console.log that something went wrong!
-	    if(err) {
-	      console.log('something went wrong');
-	    } else { // else console.log that we did well and then redirect to the root route
-	      console.log('successfully added a user!');
-	      res.redirect('/');
-	    }
-	  })*/
+
+	get_user_account(req.body.number, function(error, result){
+		if(error){
+			var location = url_parameters.redirect_uri+
+				'?account_linking_token='+
+				url_parameters.account_linking_token;
+			
+			res.redirect(location);
+		}
+		else{
+			var user = new User({
+				phoneNumber: req.body.number, 
+				pin: req.body.pin, 
+				status: true, 
+				accountID: result.account_id,
+				nuban: result.nuban,
+				facebookID: url_parameters.sender 
+			});
+		
+			user.save(function(err) {
+	  	  if(err) {
+	  	    console.log('Unable to add user with number '+req.body.number);
+					var location = url_parameters.redirect_uri+
+						'?account_linking_token='+
+						url_parameters.account_linking_token;
+			
+					res.redirect(location);
+	  	  } else {
+	  	    console.log('Successfully added a user with number '+req.body.number);
+					var location = url_parameters.redirect_uri+
+						'?account_linking_token='+
+						url_parameters.account_linking_token+
+						'&authorization_code='+req.nody.number;
+					res.redirect(location);
+				}
+			});
+			
+		}
+	});
+		
+	
 })
 // listen on 8000
 var server = app.listen(8000, function() {
@@ -132,7 +206,8 @@ var server = app.listen(8000, function() {
 
 /*
 #########################################################################################################
-Functions to be completed by APPDEV
+Functions to be completed by APPDEV. 
+All current instructions return default test values. 
 */
 
 /*
@@ -193,6 +268,36 @@ function check_pin(user, callback){
 	}
 }
 
+/*
+Using the usern umber provided via facebook, 
+retireve the account user_id (bra_code, cus_num) and 
+Nuban for the primary account(i.e. 737 default)
+*/
+function get_user_account(number, callback){
+	test_nuban = 0225303680;
+	test_account_id = 2148166591;
+	
+	callback(JSON.stringify({
+		nuban: test_nuban,
+		account_id: test_account_id
+	}));
+}
+
+/*
+using the userid retrieved, confirm that the last 6 digits entered match users card details
+return true if they match and false if not
+*/
+function confirm_card_details(card, user_id, callback){
+	callback(true);
+}
+
+/*
+call the process to register a user (using the provided number) for the 
+GT 737 service.
+*/
+function register_user(number, callback){
+	callback(true);
+}
 
 
 
