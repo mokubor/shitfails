@@ -149,7 +149,7 @@ app.post('/register_number', function(req, res){
 						url_parameters.account_linking_token;
 			
 					res.redirect(location);*/
-					console.log('unable to register account');
+					console.log('unable to register account card errr');
 					res.redirect('/');
 				} else{
 					if(validated){
@@ -245,6 +245,7 @@ app.post('/link_user', function(req, res) {
 						'?account_linking_token=ttjyjstryjtyjsyuejtj'+
 						'&authorization_code='+req.body.number;
 		console.log(location);
+		console.log(req.body);
 		console.log("successfully linked user");
 	});
 		
@@ -323,7 +324,7 @@ function check_pin(user, callback){
 }
 
 /*
-Using the usern umber provided via facebook, 
+Using the user number provided via facebook, 
 retireve the account user_id (bra_code, cus_num) and 
 Nuban for the primary account(i.e. 737 default)
 */
@@ -332,7 +333,7 @@ function get_user_account(number, callback){
 	test_nuban = 0225303680;
 	test_account_id = 2148166591;
 	
-	callback(JSON.stringify({
+	callback(null, JSON.stringify({
 		nuban: test_nuban,
 		account_id: test_account_id
 	}));
@@ -344,7 +345,7 @@ return true if they match and false if not
 */
 function confirm_card_details(card, user_id, callback){
 	console.log('checking confirm card details');
-	callback(true);
+	callback(null, true);
 }
 
 /*
@@ -352,7 +353,7 @@ call the process to register a user (using the provided number) for the
 GT 737 service.
 */
 function register_user(number, callback){
-	callback(true);
+	callback(null, true);
 }
 
 
