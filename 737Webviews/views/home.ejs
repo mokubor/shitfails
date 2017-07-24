@@ -222,6 +222,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 						contentType: 'application/json',
 						url: '/register_number',
 						success: function(data) {
+							console.log(JSON.stringify(data));
 							if(data.isRegistered){
 								$('p').text('Chat bot: You have succesfully been authenticated. Return to Messenger');
 								$.ajax({

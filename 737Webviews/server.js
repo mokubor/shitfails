@@ -165,9 +165,11 @@ app.post('/register_number', function(req, res){
 								console.log('unable to register account');
 								res.redirect('/');
 							}else{
+								console.log("IN register user");
 								if(registered){
+									console.log("REGISTERED");
 									res.writeHead(200, {'content-type': 'text/json'});
-									res.write(JSON.stringify({isRegistered: false}));
+									res.write( JSON.stringify({isRegistered: true}));
 									res.end('\n');
 								}else{
 									/*var location = url_parameters.redirect_uri+
@@ -175,7 +177,7 @@ app.post('/register_number', function(req, res){
 										url_parameters.account_linking_token;
 									
 									res.redirect(location);*/
-									console.log('unable to register account');
+									console.log('unable to register account, no rereg.');
 									res.redirect('/');
 								}
 							}
@@ -187,7 +189,7 @@ app.post('/register_number', function(req, res){
 							url_parameters.account_linking_token;
 			
 						res.redirect(location);*/
-						console.log('register account successful');
+						console.log('register account unsuccessful');
 						res.redirect('/');
 					}
 				}
