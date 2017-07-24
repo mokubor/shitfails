@@ -35,9 +35,7 @@ app.get('/', function(req, res) {
 
 app.get('/home', function(req, res) {
  // This is where we would get the users from the database and send them to the index view to be displayed.
- res.render('home', {
-	 sender: '1234'
- });
+ res.render('home');
 })
 
 app.get('/action/:id', function(req, res) {
@@ -52,8 +50,8 @@ app.post('/get_user', function (req, res){
   console.log("SENT FROM VIEW: ", req.body);
 	
 	//retrieve url parameters like redirect uri etc
-	url_parameters = req.body.url_params;
-	console.log(url_parameters);
+	//url_parameters = req.body.url_params;
+	//console.log(url_parameters);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
@@ -121,54 +119,68 @@ app.post('/verify_pin', function(req, res){
 /*
 */
 app.post('/register_number', function(req, res){
+	console.log("IN REGISTER NUMBER");
 	get_user_account(req.body.number, function(error, result){
 		if(error){
 			//come back
-			var location = url_parameters.redirect_uri+
+			/*var location = url_parameters.redirect_uri+
 				'?account_linking_token='+
 				url_parameters.account_linking_token;
 			
 			res.redirect(location);
+			*/
+			console.log('unable to register account');
+			res.redirect('/');
 		} else{
 			confirm_card_details(req.body.card, result.account_id, function(error, validated){
+				console.log("IN CONFIRM DETAILS");
 				if(error){
 					//come back
-					var location = url_parameters.redirect_uri+
+					/*var location = url_parameters.redirect_uri+
 						'?account_linking_token='+
 						url_parameters.account_linking_token;
 			
-					res.redirect(location);
+					res.redirect(location);*/
+					console.log('unable to register account');
+					res.redirect('/');
 				} else{
 					if(validated){
+						console.log("In Validate");
 						register_user(req.body.number, function(error, registered){
 							if(error){
 								//come back
-								var location = url_parameters.redirect_uri+
+								/*var location = url_parameters.redirect_uri+
 									'?account_linking_token='+
 									url_parameters.account_linking_token;
 			
-								res.redirect(location);
+								res.redirect(location);*/
+								console.log('unable to register account');
+								res.redirect('/');
 							}else{
 								if(registered){
 									res.writeHead(200, {'content_type': 'text/json'});
 									res.write(JSON.stringify({isRegistered: false}));
 									res.end('/n');
 								}else{
-									var location = url_parameters.redirect_uri+
+									/*var location = url_parameters.redirect_uri+
 										'?account_linking_token='+
 										url_parameters.account_linking_token;
 									
-									res.redirect(location);
+									res.redirect(location);*/
+									console.log('unable to register account');
+									res.redirect('/');
 								}
 							}
 						});
 						
 					}else{
-						var location = url_parameters.redirect_uri+
+						/*var location = url_parameters.redirect_uri+
 							'?account_linking_token='+
 							url_parameters.account_linking_token;
 			
-						res.redirect(location);
+						res.redirect(location);*/
+						console.log('register account successful');
+						res.redirect('/');
 					}
 				}
 			});
@@ -182,10 +194,10 @@ Then saves all the details, phone number, facebook id, pin, nuban, account id, a
 On successful save, redirect with fb redirect uri and linking token. 
 */
 app.post('/link_user', function(req, res) {
-	console.log("POST DATA", req.body);
+	console.log("POST DATA LINK USER", req.body);
 
 	get_user_account(req.body.number, function(error, result){
-		if(error){
+		/*if(error){
 			var location = url_parameters.redirect_uri+
 				'?account_linking_token='+
 				url_parameters.account_linking_token;
@@ -220,7 +232,8 @@ app.post('/link_user', function(req, res) {
 				}
 			});
 			
-		}
+		}*/
+		console.log("successfully linked user");
 	});
 		
 	
