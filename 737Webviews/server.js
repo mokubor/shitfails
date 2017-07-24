@@ -35,7 +35,9 @@ app.get('/', function(req, res) {
 
 app.get('/home', function(req, res) {
  // This is where we would get the users from the database and send them to the index view to be displayed.
- res.render('home');
+ res.render('home', {
+	 sender: '1234'
+ });
 })
 
 app.get('/action/:id', function(req, res) {
@@ -51,6 +53,7 @@ app.post('/get_user', function (req, res){
 	
 	//retrieve url parameters like redirect uri etc
 	url_parameters = req.body.url_params;
+	console.log(url_parameters);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
