@@ -73,6 +73,7 @@ app.post('/verify_code', function(req, res){
 	console.log("SENT FROM VIEW: " , req.body);
 	check_verification(req.body.verify, function(result){
 		if(result == '0'){//verification code does not match
+			console.log('pin sent does not match pin received');
 			res.writeHead(200, {'content_type': 'text/json'});
 			res.write(JSON.stringify({status: '-1'}));
 			res.end('/n');
@@ -80,6 +81,7 @@ app.post('/verify_code', function(req, res){
 		else{//verification code matches
 			check_seventhreeseven_status(req.body.number, function(result){
 				if(result == '0'){//fb users number is not profiled for 737
+					console.log('user is not profiled for 737');
 					res.writeHead(200, {'content_type': 'text/json'});
 					res.write(JSON.stringify({status: '0'}));
 					res.end('/n');
@@ -263,6 +265,7 @@ else
 return 0
 */
 function check_verification(code, callback){
+	console.log('checking verification');
 	var test_code = '123456';
 	
 	if( test_code == code ){
