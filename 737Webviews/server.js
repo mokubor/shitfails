@@ -148,7 +148,7 @@ app.post('/register_number', function(req, res){
 							}else{
 								if(registered){
 									res.writeHead(200, {'content_type': 'text/json'});
-									res.write(JSON.stringify({isPin: false}));
+									res.write(JSON.stringify({isRegistered: false}));
 									res.end('/n');
 								}else{
 									var location = url_parameters.redirect_uri+
