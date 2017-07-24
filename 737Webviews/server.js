@@ -283,6 +283,7 @@ else
 return 0
 */
 function check_seventhreeseven_status(number, callback){
+	console.log('checking 737 status');
 	var test_number = '08056059032';
 	
 	if(test_number == number){
@@ -299,6 +300,7 @@ return true if they match
 return false if they are not the same
 */
 function check_pin(user, callback){
+	console.log('checking pin');
 	var test_pin = '0720';
 	
 	//get 737 profile details for user.number and compare profile pin to user.pin
@@ -316,6 +318,7 @@ retireve the account user_id (bra_code, cus_num) and
 Nuban for the primary account(i.e. 737 default)
 */
 function get_user_account(number, callback){
+	console.log('checking get user account number ');
 	test_nuban = 0225303680;
 	test_account_id = 2148166591;
 	
@@ -330,6 +333,7 @@ using the userid retrieved, confirm that the last 6 digits entered match users c
 return true if they match and false if not
 */
 function confirm_card_details(card, user_id, callback){
+	console.log('checking confirm card details');
 	callback(true);
 }
 

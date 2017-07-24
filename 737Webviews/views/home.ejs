@@ -140,11 +140,11 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					url: '/verify_code',
 					success: function(data) {
 						returncode = data.body.status;
-						if(returncode == 1){
+						if(returncode == '1'){
 							$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
 							$('#b').hide();
 							$('#c').show();
-						}else if(returncode == 0){
+						}else if(returncode == '0'){
 							$('p').text('Chat bot: Create a 737 service Pin');
 							$('#b').hide();
 							$('#d').show();
