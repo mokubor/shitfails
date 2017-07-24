@@ -139,7 +139,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					contentType: 'application/json',
 					url: '/verify_code',
 					success: function(data) {
-						returncode = data.body.status;
+						returncode = data.status;
 						if(returncode == '1'){
 							$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
 							$('#b').hide();
@@ -184,6 +184,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 								url: '/link_user',
 								success: function(data){
 									//append redirect values
+									$('p').text('DONE')
 								}
 							});
 							updateMessage();

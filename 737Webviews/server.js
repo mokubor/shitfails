@@ -76,9 +76,9 @@ app.post('/verify_code', function(req, res){
 		if(result == '0'){//verification code does not match
 			console.log('pin sent does not match pin received');
 			statuscheck = '-1';
-			res.writeHead(200, {'content-type': 'text/json'});
-			res.write(JSON.stringify({status: statuscheck}));
-			res.end('/n');
+			res.writeHead(200, {'content-type': 'text/json' });
+  		res.write( JSON.stringify({status: statuscheck}) );
+			res.end('\n');
 		}
 		else{//verification code matches
 			check_seventhreeseven_status(req.body.number, function(result){
