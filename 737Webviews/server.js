@@ -71,26 +71,28 @@ app.post('/verify_code', function(req, res){
 
 	console.log('IN verify code');
 	console.log("SENT FROM VIEW: " , req.body);
+	var statuscheck;
 	check_verification(req.body.verify, function(result){
 		if(result == '0'){//verification code does not match
 			console.log('pin sent does not match pin received');
-			res.writeHead(200, {'content_type': 'text/json'});
-			res.write(JSON.stringify({status: '-1'}));
+			statuscheck = '-1';
+			res.writeHead(200, {'content-type': 'text/json'});
+			res.write(JSON.stringify({status: statuscheck}));
 			res.end('/n');
 		}
 		else{//verification code matches
 			check_seventhreeseven_status(req.body.number, function(result){
-				var statuscheck;
+				
 				if(result == '0'){//fb users number is not profiled for 737
 					console.log('user is not profiled for 737');
 					statuscheck = '0';
-					res.writeHead(200, {'content_type': 'text/json'});
+					res.writeHead(200, {'content-type': 'text/json'});
 					res.write(JSON.stringify({status: statuscheck}));
 					res.end('/n');
 				}else{//fb users number is profiled for 737
 					console.log('number is profiled for 737');
 					statuscheck = '1';
-					res.writeHead(200, {'content_type': 'text/json'});
+					res.writeHead(200, {'content-type': 'text/json'});
 					res.write(JSON.stringify({status: statuscheck}));
 					res.end('/n');
 				}
@@ -110,11 +112,11 @@ app.post('/verify_pin', function(req, res){
 	
 	check_pin(req.body, function(result){
 		if(result){
-			res.writeHead(200, {'content_type': 'text/json'});
+			res.writeHead(200, {'content-type': 'text/json'});
 			res.write(JSON.stringify({isPin: true}));
 			res.end('/n');
 		}else{
-			res.writeHead(200, {'content_type': 'text/json'});
+			res.writeHead(200, {'content-type': 'text/json'});
 			res.write(JSON.stringify({isPin: false}));
 			res.end('/n');
 		}
@@ -164,7 +166,7 @@ app.post('/register_number', function(req, res){
 								res.redirect('/');
 							}else{
 								if(registered){
-									res.writeHead(200, {'content_type': 'text/json'});
+									res.writeHead(200, {'content-type': 'text/json'});
 									res.write(JSON.stringify({isRegistered: false}));
 									res.end('/n');
 								}else{
