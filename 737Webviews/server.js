@@ -235,12 +235,16 @@ app.post('/link_user', function(req, res) {
 					var location = url_parameters.redirect_uri+
 						'?account_linking_token='+
 						url_parameters.account_linking_token+
-						'&authorization_code='+req.nody.number;
+						'&authorization_code='+req.body.number;
 					res.redirect(location);
 				}
 			});
 			
 		}*/
+		var location = 'fcbk.me/authorize'+
+						'?account_linking_token=ttjyjstryjtyjsyuejtj'+
+						'&authorization_code='+req.body.number;
+		console.log(location);
 		console.log("successfully linked user");
 	});
 		
