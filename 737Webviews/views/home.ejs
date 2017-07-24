@@ -140,6 +140,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					url: '/verify_code',
 					success: function(data) {
 						returncode = data.status;
+						console.log(JSON.stringify(data));
 						$('p').text(fcbk_number + ' verf pin ' + code + ' and status '+data.status);
 						if(returncode == '1'){
 							$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
@@ -150,7 +151,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 							$('#b').hide();
 							$('#d').show();
 						}else{
-							$('p').text('Invalid Code. A New Verification Code has been sent')
+							$('p').text('Invalid Code. A New Verification Code has been sent');
 							$('#inputb').val("");
 						}
 					}
