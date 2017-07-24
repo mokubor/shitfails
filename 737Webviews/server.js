@@ -80,14 +80,18 @@ app.post('/verify_code', function(req, res){
 		}
 		else{//verification code matches
 			check_seventhreeseven_status(req.body.number, function(result){
+				var statuscheck;
 				if(result == '0'){//fb users number is not profiled for 737
 					console.log('user is not profiled for 737');
+					statuscheck = '0';
 					res.writeHead(200, {'content_type': 'text/json'});
-					res.write(JSON.stringify({status: '0'}));
+					res.write(JSON.stringify({status: statuscheck}));
 					res.end('/n');
 				}else{//fb users number is profiled for 737
+					console.log('number is profiled for 737');
+					statuscheck = '1';
 					res.writeHead(200, {'content_type': 'text/json'});
-					res.write(JSON.stringify({status: '1'}));
+					res.write(JSON.stringify({status: statuscheck}));
 					res.end('/n');
 				}
 			});
