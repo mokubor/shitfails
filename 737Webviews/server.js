@@ -70,7 +70,7 @@ Check backend database if user is profiled for 737 service
 app.post('/verify_code', function(req, res){
 
 	console.log('IN verify code');
-	console.log("SENT FROM VIEW: " + req.body);
+	console.log("SENT FROM VIEW: " , req.body);
 	check_verification(req.body.verify, function(result){
 		if(result == '0'){//verification code does not match
 			res.writeHead(200, {'content_type': 'text/json'});
@@ -100,7 +100,7 @@ false if it does not
 */
 app.post('/verify_pin', function(req, res){
 	console.log('IN verify pin');
-	console.log("SENT FROM VIEW: " + req.body);
+	console.log("SENT FROM VIEW: " , req.body);
 	
 	check_pin(req.body, function(result){
 		if(result){
