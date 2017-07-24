@@ -128,7 +128,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			$('#submitb').click(function() {
 				var returncode;
 				var code = $('#inputb').val();
-				$('p').text(fcbk_number);
+				$('p').text(fcbk_number + '  ' + code);
 				$.ajax({
 					type: 'POST',
 					data: JSON.stringify({
