@@ -39,6 +39,10 @@ app.get('/', function(req, res){
 	res.send("hi, I am a fleeky chatbot");
 });
 
+app.get('/webview', function(req, res){
+	res.redirect('https://fintech-webviews.herokuapp.com/home?param=seethis&another=seeanother');
+});
+
 app.get('/webhook', function(req, res){
 	if(req.query['hub.verify_token'] === validation_token ){
 		console.log("Token Validated");

@@ -18,7 +18,9 @@
 737Bot/*.seed
 737Bot/*.pid.lock
 
-
+#package lock
+737Webviews/package.json.lock
+737Bot/package.json.lock
 
 # Logs
 737Webviews/logs
