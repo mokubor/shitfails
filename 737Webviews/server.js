@@ -53,13 +53,13 @@ app.post('/get_user', function (req, res){
   console.log('IN get user');
   console.log("SENT FROM VIEW: ", req.body);
 	
-	account_linking_token = req.query.account_linking_token;
-	redirect_uri = req.query.redirect_uri;
+	//account_linking_token = req.query.account_linking_token;
+	//redirect_uri = req.query.redirect_uri;
 	var param = req.query.param;
-	var another = req.query.another
+	var another = req.query.another;
 	//retrieve url parameters like redirect uri etc
 	//url_parameters = 
-	//console.log("URL PARAMETERS ARE: " + url_parameters);
+	console.log("URL PARAMETERS ARE: " + param);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
@@ -139,9 +139,8 @@ app.post('/register_number', function(req, res){
 	get_user_account(req.body.number, function(error, result){
 		if(error){
 			//come back
-			/*var location = url_parameters.redirect_uri+
-				'?account_linking_token='+
-				url_parameters.account_linking_token;
+			/*var location = redirect_uri+
+				'?account_linking_token='+ account_linking_token;
 			
 			res.redirect(location);
 			*/
@@ -152,9 +151,8 @@ app.post('/register_number', function(req, res){
 				console.log("IN CONFIRM DETAILS");
 				if(error){
 					//come back
-					/*var location = url_parameters.redirect_uri+
-						'?account_linking_token='+
-						url_parameters.account_linking_token;
+					/*var location = redirect_uri+
+						'?account_linking_token='+account_linking_token;
 			
 					res.redirect(location);*/
 					console.log('unable to register account card errr');
