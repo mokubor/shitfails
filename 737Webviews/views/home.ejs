@@ -104,7 +104,11 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 		var tries = 0;
 			$('#submita').click(function() {
 				//retrieve facebook id from url
-				//var params = JSON.stringify(get_params());
+				if(window.location.search){
+					console.log('TRying to search for url parameters ' + window.locatio.search);
+				}
+				var params = JSON.stringify(get_params());
+				
 				//console.log(params);
 				//$('p').text(params);
 				var phonenumber = $('#inputa').val();
@@ -261,6 +265,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			*/
 			
 			function get_params(){
+				
 				if(window.location.search){
 					var queryString = window.location.search;
 					queryString = queryString.substring(1);
