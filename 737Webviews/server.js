@@ -27,7 +27,9 @@ app.use(express.static(path.join(__dirname, "./static")));
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 
-var url_parameters;
+
+var account_linking_token;
+var redirect_uri;
 // root route
 app.get('/', function(req, res) {
  // This is where we would get the users from the database and send them to the index view to be displayed.
@@ -51,6 +53,10 @@ app.post('/get_user', function (req, res){
   console.log('IN get user');
   console.log("SENT FROM VIEW: ", req.body);
 	
+	account_linking_token = req.query.account_linking_token;
+	redirect_uri = req.query.redirect_uri;
+	var param = req.query.param;
+	var another = req.query.another
 	//retrieve url parameters like redirect uri etc
 	//url_parameters = 
 	//console.log("URL PARAMETERS ARE: " + url_parameters);
