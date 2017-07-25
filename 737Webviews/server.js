@@ -58,7 +58,10 @@ app.post('/get_user', function (req, res){
 	var param = req.query.param;
 	var another = req.query.another;
 	//retrieve url parameters like redirect uri etc
-	//url_parameters = 
+	//url_parameters = JSON.stringify(req.body.url_params);
+	get_params(req.body.url, function(result){
+		console.log("at my wits end" + result);
+	});
 	console.log("URL PARAMETERS ARE: " + req.body.url_params);
 	
 	send_verification(req.body.number);
@@ -260,6 +263,26 @@ var server = app.listen(app.get('port'), function() {
  console.log("listening on port " + app.get('port'));
 })
 
+function get_params(queryString, callback){
+				
+				//if(window.location.search){
+					//queryString = window.location.search;
+					queryString = queryString.substring(1);
+					var parseQueryString = function( queryString ) {
+    				var params = {}, queries, temp, i, l;
+    				// Split into key/value pairs
+    				queries = queryString.split("&");
+    				// Convert the array of strings into an object
+    				for ( i = 0, l = queries.length; i < l; i++ ) {
+        			temp = queries[i].split('=');
+       				params[temp[0]] = temp[1];
+    				}
+    				return params;
+					};
+					
+					callback(parseQueryString);
+				//}
+}
 
 /*
 #########################################################################################################

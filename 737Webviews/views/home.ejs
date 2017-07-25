@@ -106,10 +106,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 				//retrieve facebook id from url
 				var params;
 				if(window.location.search){
-					console.log('TRying to search for url parameters ' + window.location.search);
-					get_params(window.location.search, function(parameters){
-						params = parameters;
-					});
+					params = window.location.search;
 				}
 				
 				//console.log(params);
