@@ -80,7 +80,7 @@ app.post('/webhook', function(req, res) {
 	res.sendStatus(200);
 });
 
-messages.addPersistentMenu();
+//messages.addPersistentMenu();
 //messages.removePersistentMenu();
 
 /*function sendText(sender, text){

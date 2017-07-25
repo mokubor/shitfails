@@ -168,8 +168,7 @@ function sendLinkingMessage(sender, text){
 						"image_url":"http://thengmag.com/blogimages/gtbank-lead.jpg",
 						"buttons":[{
 							"type": "account_link",
-							"url": "",
-							"title": "Link Account"
+							"url": "https://fintech-webviews.herokuapp.com/home?sendersender"
 						}]
 					}
 				]

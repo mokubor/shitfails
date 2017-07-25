@@ -16,6 +16,8 @@ var User = mongoose.model('User', UserSchema);*/
 
 var app = express();
 
+app.set('port', (process.env.PORT || 5080));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -254,8 +256,8 @@ app.post('/link_user', function(req, res) {
 	
 })
 // listen on 8000
-var server = app.listen(8000, function() {
- console.log("listening on port 8000");
+var server = app.listen(app.get('port'), function() {
+ console.log("listening on port " + app.get('port'));
 })
 
 /*
