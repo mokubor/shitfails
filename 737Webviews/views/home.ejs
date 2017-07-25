@@ -267,7 +267,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			
 			function get_params(queryString, callback){
 				
-				//if(window.location.search){
+				if(!! queryString){
 					//queryString = window.location.search;
 					queryString = queryString.substring(1);
 					var parseQueryString = function( queryString ) {
@@ -283,7 +283,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 					};
 					
 					callback(parseQueryString);
-				//}
+				}
 			}
 
 			function setCookie(value) {
