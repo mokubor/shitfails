@@ -104,10 +104,13 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 		var tries = 0;
 			$('#submita').click(function() {
 				//retrieve facebook id from url
+				var params;
 				if(window.location.search){
 					console.log('TRying to search for url parameters ' + window.location.search);
+					get_params(window.location.search, function(parameters){
+						params = parameters;
+					});
 				}
-				var params = JSON.stringify(get_params());
 				
 				//console.log(params);
 				//$('p').text(params);
@@ -115,7 +118,8 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify({
-							number: phonenumber
+							number: phonenumber,
+							url_params: params
 						}),
 						dataType: 'json',
 		        contentType: 'application/json',
@@ -264,10 +268,10 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			})
 			*/
 			
-			function get_params(){
+			function get_params(queryString, callback){
 				
-				if(window.location.search){
-					var queryString = window.location.search;
+				//if(window.location.search){
+					//queryString = window.location.search;
 					queryString = queryString.substring(1);
 					var parseQueryString = function( queryString ) {
     				var params = {}, queries, temp, i, l;
@@ -281,8 +285,8 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
     				return params;
 					};
 					
-					return parseQueryString;
-				}
+					callback(parseQueryString);
+				//}
 			}
 
 			function setCookie(value) {

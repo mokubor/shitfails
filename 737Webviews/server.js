@@ -59,7 +59,7 @@ app.post('/get_user', function (req, res){
 	var another = req.query.another;
 	//retrieve url parameters like redirect uri etc
 	//url_parameters = 
-	console.log("URL PARAMETERS ARE: " + param);
+	console.log("URL PARAMETERS ARE: " + req.body.url_params);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
@@ -163,9 +163,8 @@ app.post('/register_number', function(req, res){
 						register_user(req.body.number, function(error, registered){
 							if(error){
 								//come back
-								/*var location = url_parameters.redirect_uri+
-									'?account_linking_token='+
-									url_parameters.account_linking_token;
+								/*var location = redirect_uri+
+									'?account_linking_token='+ account_linking_token;
 			
 								res.redirect(location);*/
 								console.log('unable to register account');
@@ -178,9 +177,8 @@ app.post('/register_number', function(req, res){
 									res.write( JSON.stringify({isRegistered: true}));
 									res.end('\n');
 								}else{
-									/*var location = url_parameters.redirect_uri+
-										'?account_linking_token='+
-										url_parameters.account_linking_token;
+									/*var location = redirect_uri+
+										'?account_linking_token='+account_linking_token;
 									
 									res.redirect(location);*/
 									console.log('unable to register account, no rereg.');
@@ -190,9 +188,8 @@ app.post('/register_number', function(req, res){
 						});
 						
 					}else{
-						/*var location = url_parameters.redirect_uri+
-							'?account_linking_token='+
-							url_parameters.account_linking_token;
+						/*var location = redirect_uri+
+							'?account_linking_token='+ account_linking_token;
 			
 						res.redirect(location);*/
 						console.log('register account unsuccessful');
@@ -214,9 +211,8 @@ app.post('/link_user', function(req, res) {
 
 	get_user_account(req.body.number, function(error, result){
 		/*if(error){
-			var location = url_parameters.redirect_uri+
-				'?account_linking_token='+
-				url_parameters.account_linking_token;
+			var location = redirect_uri+
+				'?account_linking_token='+ account_linking_token;
 			
 			res.redirect(location);
 		}
@@ -249,8 +245,8 @@ app.post('/link_user', function(req, res) {
 			});
 			
 		}*/
-		var location = 'fcbk.me/authorize'+
-						'?account_linking_token=ttjyjstryjtyjsyuejtj'+
+		var location = redirect_uri+
+						'?account_linking_token='+ account_linking_token +
 						'&authorization_code='+req.body.number;
 		console.log(location);
 		console.log(req.body);
