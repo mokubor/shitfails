@@ -62,6 +62,7 @@ app.post('/get_user', function (req, res){
 		console.log("at my wits end" + result);
 	});
 	console.log("URL PARAMETERS ARE: " + req.body.url_params);
+	console.log(req.query);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
