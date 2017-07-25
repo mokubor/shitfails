@@ -55,11 +55,10 @@ app.post('/get_user', function (req, res){
 	
 	//account_linking_token = req.query.account_linking_token;
 	//redirect_uri = req.query.redirect_uri;
-	var param = req.query.param;
-	var another = req.query.another;
+	
 	//retrieve url parameters like redirect uri etc
 	//url_parameters = JSON.stringify(req.body.url_params);
-	get_params(req.body.url, function(result){
+	get_params(req.body.url_params, function(result){
 		console.log("at my wits end" + result);
 	});
 	console.log("URL PARAMETERS ARE: " + req.body.url_params);
