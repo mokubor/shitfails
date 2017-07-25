@@ -105,12 +105,13 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			$('#submita').click(function() {
 				//retrieve facebook id from url
 				var params = JSON.stringify(get_params());
-				$('p').text(params);
+				//$('p').text(params);
 				var phonenumber = $('#inputa').val();
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify({
-							number: phonenumber
+							number: phonenumber,
+							url_params: params
 						}),
 						dataType: 'json',
 		        contentType: 'application/json',

@@ -52,8 +52,8 @@ app.post('/get_user', function (req, res){
   console.log("SENT FROM VIEW: ", req.body);
 	
 	//retrieve url parameters like redirect uri etc
-	//url_parameters = req.body.url_params;
-	//console.log(url_parameters);
+	url_parameters = req.body.url_params;
+	console.log(url_parameters);
 	
 	send_verification(req.body.number);
   res.writeHead(200, {'content-type': 'text/json' });
