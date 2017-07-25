@@ -105,6 +105,7 @@ box-shadow: 0px 10px 54px -12px rgba(0,0,0,0.75);
 			$('#submita').click(function() {
 				//retrieve facebook id from url
 				var params = JSON.stringify(get_params());
+				console.log(params);
 				//$('p').text(params);
 				var phonenumber = $('#inputa').val();
 				$.ajax({

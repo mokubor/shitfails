@@ -75,6 +75,15 @@ app.post('/webhook', function(req, res) {
 			messages.decideResponse(sender,text);
 			continue;
 		}
+		if(event.account_linking){
+			var number = event.account_linking.authorization_code;
+			if(event.account_linking.status == 'linked'){
+				messages.sendMainOption(sender, number);
+			}
+			else{
+				messages.sendText(sender, "unable to link");
+			}
+		}
 	}
 
 	res.sendStatus(200);

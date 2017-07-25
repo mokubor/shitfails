@@ -25,6 +25,7 @@ module.exports = {
 				else send linking message
 			*/
 			this.sendText(sender, "Account would be linked at this step." )
+			this.sendLinkingMessage(sender);
 		}
 		else{
 			this.sendText(sender, "Text echo: "+ text.substring(0, 100));
@@ -156,7 +157,7 @@ module.exports = {
 
 };
 
-function sendLinkingMessage(sender, text){
+function sendLinkingMessage(sender){
 	var messageData = {
 		"attachment": {
 			"type": "template",
@@ -176,6 +177,34 @@ function sendLinkingMessage(sender, text){
 		}
 	}
 
+	sendRequest(sender, messageData);
+}
+
+function sendMainOption(sender, authcode){
+	var text = 'this is the authorization code: '+ authcode;
+	this.sendText(sender, text);
+	
+	var messageData = {
+		"text": "Choose one of the following to begin: ",
+		"quick_replies": [
+			{
+				"content_type": "text",
+				"title": "Make a Transfer", 
+				"payload": "TRANSFER"
+			},
+			{
+				"content_type": "text",
+				"title": "Purchase Airtime", 
+				"payload": "AIRTIME_PURCHASE"
+			},
+			{
+				"content_type": "text",
+				"title": "Check Balance", 
+				"payload": "CHECK_BALANCE"
+			}
+		]
+	}
+	
 	sendRequest(sender, messageData);
 }
 
