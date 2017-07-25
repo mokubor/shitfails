@@ -264,23 +264,15 @@ var server = app.listen(app.get('port'), function() {
 
 function get_params(queryString, callback){
 				
-				//if(window.location.search){
+				if(!! queryString){
 					//queryString = window.location.search;
 					queryString = queryString.substring(1);
-					var parseQueryString = function( queryString ) {
-    				var params = {}, queries, temp, i, l;
-    				// Split into key/value pairs
-    				queries = queryString.split("&");
-    				// Convert the array of strings into an object
-    				for ( i = 0, l = queries.length; i < l; i++ ) {
-        			temp = queries[i].split('=');
-       				params[temp[0]] = temp[1];
-    				}
-    				return params;
-					};
+					var queries = queryString.split("&");
 					
-					callback(parseQueryString);
-				//}
+					
+					
+					callback(JSON.stringify({query:queries}));
+				}
 }
 
 /*
